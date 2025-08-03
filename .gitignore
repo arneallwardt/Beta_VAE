@@ -10,6 +10,8 @@ results/old/*
 !results/beta_VAE_dsprites/params.txt
 !results/default_VAE_dsprites/champion.pth
 !results/default_VAE_dsprites/params.txt
+!results/default_VAE_3d_shapes/champion.pth
+!results/default_VAE_3d_shapes/params.txt
 data/
 
 # Byte-compiled / optimized / DLL files
