@@ -27,25 +27,7 @@ def download_folder(dbx, dropbox_path, local_path):
 def main():
     dbx = dropbox.Dropbox(ACCESS_TOKEN)
     download_folder(dbx, DROPBOX_FOLDER_PATH, LOCAL_DATA_DIR)
-    print("Download fertig!")
+    print("Download finished!")
 
 if __name__ == "__main__":
     main()
-
-import os
-from dotenv import load_dotenv
-import dropbox
-
-load_dotenv()
-
-
-if ACCESS_TOKEN is None:
-    raise ValueError("DROPBOX_ACCESS_TOKEN environment variable not set!")
-
-dbx = dropbox.Dropbox(ACCESS_TOKEN)
-
-result = dbx.files_list_folder("")  # root
-
-print("Inhalte im Root:")
-for entry in result.entries:
-    print(f"{entry.name} ({type(entry).__name__})")
