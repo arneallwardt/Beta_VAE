@@ -4,7 +4,6 @@ import dropbox
 
 load_dotenv()
 
-# Dein Dropbox Access Token
 ACCESS_TOKEN = os.environ.get('DROPBOX_ACCESS_TOKEN')
 DROPBOX_FOLDER_PATH = os.environ.get('DROPBOX_FOLDER_PATH')
 LOCAL_DATA_DIR = "./data/"
@@ -12,7 +11,6 @@ LOCAL_DATA_DIR = "./data/"
 def download_folder(dbx, dropbox_path, local_path):
     os.makedirs(local_path, exist_ok=True)
 
-    # Listet Dateien und Ordner im Dropbox-Ordner auf
     result = dbx.files_list_folder(dropbox_path)
 
     for entry in result.entries:
@@ -24,7 +22,6 @@ def download_folder(dbx, dropbox_path, local_path):
                 f.write(res.content)
 
         elif isinstance(entry, dropbox.files.FolderMetadata):
-            # Rekursiv Ordner runterladen
             download_folder(dbx, entry.path_lower, os.path.join(local_path, entry.name))
 
 def main():
@@ -41,11 +38,9 @@ import dropbox
 
 load_dotenv()
 
-# Access Token aus Umgebungsvariable holen (z. B. aus .env oder direkt gesetzt)
-ACCESS_TOKEN = os.environ.get("DROPBOX_ACCESS_TOKEN")
 
 if ACCESS_TOKEN is None:
-    raise ValueError("DROPBOX_ACCESS_TOKEN Umgebungsvariable ist nicht gesetzt!")
+    raise ValueError("DROPBOX_ACCESS_TOKEN environment variable not set!")
 
 dbx = dropbox.Dropbox(ACCESS_TOKEN)
 
