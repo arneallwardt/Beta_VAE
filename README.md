@@ -1,92 +1,112 @@
-# Beta-VAE for MNIST Disentanglement
+# Beta VAE - Disentanglement Representation Learning
 
-This project is part of the Smart Graphics module at the University of Bremen, Summer Semester 2025. The goal is to implement and train a Beta-Variational Autoencoder (Beta-VAE) to achieve a disentangled feature space using the MNIST dataset.
+This repository contains the implementation and evaluation of Beta Variational Autoencoders (β-VAEs) for disentanglement representation learning. This project was developed as part of the "Smart Graphics" university course, where I investigate and compare the disentanglement capabilities of β-VAEs against standard VAEs.
 
-## Project Overview
+## 📋 Overview
 
-The Beta-VAE is an extension of the traditional Variational Autoencoder that introduces a hyperparameter β to control the trade-off between reconstruction quality and the degree of disentanglement in the latent space. This project aims to:
+The project implements and evaluates two types of Variational Autoencoders:
+- **Standard VAE**: Baseline implementation with β = 1
+- **Beta VAE**: Enhanced implementation with β > 1 for improved disentanglement
 
-- Implement a Beta-VAE architecture
-- Train the model on the MNIST dataset
-- Analyze the disentanglement properties of the learned latent space
-- Visualize and interpret the learned features
+The research focuses on analyzing how different β values affect the learned latent representations and their disentanglement properties across different datasets.
 
-## Requirements
-
-- Python 3.12+
-- PyTorch
-- torchvision
-- matplotlib
-- numpy
-
-## Project Structure
+## 🏗️ Project Structure
 
 ```
 Beta_VAE/
-├── data/                  # Directory for MNIST dataset
-├── models/               # Model architecture definitions
-├── utils/               # Utility functions
-├── data_exploration.ipynb  # Initial data exploration
-└── README.md
+├── config.py                          # Centralized configuration file
+├── train_vae.ipynb                    # Main training notebook
+├── quantitative_evaluation.ipynb      # Quantitative analysis
+├── qualitative_evaluation.ipynb       # Qualitative analysis
+├── models.py                          # VAE model implementations
+├── datasets.py                        # Dataset loading utilities
+├── requirements.txt                   # Python dependencies
+├── utils/
+│   ├── download_data.py              # Data download script
+│   └── utils.py                      # Utility functions
+├── data/                             # Dataset storage
+├── results/                          # Training results and models
+└── README.md                         # This file
 ```
 
-## Setup
+## ⚙️ Quick Start
 
-1. Create a virtual environment:
-```bash
-python -m venv beta_vae_venv
-source beta_vae_venv/bin/activate  # On Unix/macOS
-# or
-.\beta_vae_venv\Scripts\activate  # On Windows
+### 1. System Requirements
+
+- **Python**: 3.12.x recommended
+- **CUDA**: Compatible system recommended for GPU acceleration
+
+### 2. Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd Beta_VAE
+   ```
+
+2. **Install dependencies:**
+   
+   **For CUDA-compatible systems:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+   
+   **For non-CUDA systems:**
+   ```bash
+   # Install PyTorch CPU version first
+   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+   
+   # Then install remaining dependencies manually
+   pip install numpy matplotlib seaborn pandas h5py tqdm python-dotenv dropbox
+   ```
+
+### 3. Data Setup
+
+1. **Get Dropbox Access Token:**
+   - Contact the repository maintainer to obtain a Dropbox access token
+   - The token is required to download the datasets
+
+2. **Download Data:**
+   ```bash
+   python utils/download_data.py
+   ```
+
+### 4. Configuration
+
+The project uses a centralized configuration system in `config.py`. **You only need to modify the first two variables:**
+
+```python
+dataset_name = "dsprites" # dsprites / 3d_shapes
+vae_mode = "beta" # default / beta
 ```
 
-2. Install required packages:
-```bash
-pip install torch torchvision matplotlib numpy
-```
+**⚠️ Important:** After changing these parameters, **restart the Jupyter kernel** to ensure the changes take effect.
 
-## Usage
+### 5. Training and Evaluation
 
-1. Data Exploration:
-   - Run the `vae.ipynb` notebook to train a traditional VAE and visualize its feature space. 
+1. **Open the training notebook:**
+   ```bash
+   jupyter notebook train_vae.ipynb
+   ```
 
-2. Model Training:
-   - [To be implemented] Training scripts and procedures will be added
+2. **Run the cells sequentially** to train your VAE model
 
-3. Analysis:
-   - [To be implemented] Analysis tools and visualization methods will be added
+3. **Evaluate results:**
+   - Use `quantitative_evaluation.ipynb` for metrics and analysis
+   - Use `qualitative_evaluation.ipynb` for visual inspection
 
-## Background
+## 🔬 Research Context
 
-### Beta-VAE
-The Beta-VAE is a modification of the traditional VAE that introduces a hyperparameter β to control the trade-off between reconstruction quality and the degree of disentanglement in the latent space. The objective function is:
+This project investigates disentanglement representation learning capabilities of β-VAEs compared to standard VAEs. The research is part of the "Smart Graphics" university course, focusing on:
 
-L(θ, φ; x, z, β) = E_qφ(z|x)[log pθ(x|z)] - β * KL(qφ(z|x) || p(z))
+- **Disentanglement Analysis**: How well different latent factors are separated
+- **Representation Quality**: Comparison between β-VAE and standard VAE representations
+- **Dataset Performance**: Evaluation on dSprites and 3D Shapes datasets
 
-where:
-- θ and φ are the parameters of the decoder and encoder respectively
-- x is the input data
-- z is the latent representation
-- β controls the strength of the KL divergence term
+## 📊 Datasets
 
-### Disentanglement
-Disentanglement refers to the property where each dimension of the latent space corresponds to a single, interpretable factor of variation in the data. In the context of MNIST, this could mean:
-- One dimension controlling the digit's thickness
-- Another dimension controlling the digit's slant
-- A third dimension controlling the digit's position
+The project supports two datasets:
+- **dSprites**: 2D shapes with 5 latent factors (shape, scale, rotation, x, y)
+- **3D Shapes**: 3D objects with 6 latent factors (floor hue, wall hue, object hue, scale, shape, orientation)
 
-## Future Work
-
-- Implement the Beta-VAE architecture
-- Add training scripts
-- Create visualization tools for the latent space
-- Analyze the degree of disentanglement
-- Compare different β values and their effects
-
-## License
-
-This project is part of an academic course and is intended for educational purposes.
-
-## Contact
-
-[Your Name] - [Your Email]
+This project is developed for educational and research purposes as part of the university course "Smart Graphics".
